@@ -17,7 +17,6 @@ from torch.autograd import Variable
 from generator import generator as Generator
 from discriminator import discriminator as Discriminator
 from data_loader import image_loader
-from context_encoder_test import run_test
 
 data_path = sys.argv[1] +'/'
 
@@ -167,5 +166,3 @@ log_loss_file.close()
 
 torch.save(generator.state_dict(), model_path + 'generator.pt')
 torch.save(discriminator.state_dict(), model_path + 'discriminator.pt')
-
-run_test(test_path, model_path, test_output_path)
