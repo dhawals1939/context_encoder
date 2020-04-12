@@ -46,7 +46,8 @@ val_data_loader = DataLoader(
 
 generator = Generator()
 generator.load_state_dict(torch.load(generator_path))
-Tensor = torch.FloatTensor
+generator.cuda()
+Tensor = torch.cuda.FloatTensor
 
 def save_sample():
     global val_data_loader
