@@ -31,9 +31,9 @@ transforms_ =   [
 
 generator_path = sys.argv[1]
 
-test_path = sys.argv[2]
+test_path = sys.argv[2] + '/'
 
-output_path = sys.argv[3]
+output_path = sys.argv[3] + '/'
 
 num_files = len(glob.glob(test_path + '*.png'))
 
@@ -46,8 +46,12 @@ val_data_loader = DataLoader(
 
 generator = Generator()
 generator.load_state_dict(torch.load(generator_path))
-generator.cuda()
-Tensor = torch.cuda.FloatTensor
+
+
+Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+
+if torch.cuda.is_available():
+    generator.cuda()
 
 def save_sample():
     global val_data_loader

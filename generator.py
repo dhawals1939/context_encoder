@@ -19,14 +19,14 @@ class generator(nn.Module):
                         'out_channels':output_channels,
                         'stride':2,
                         'padding':1,
-                        'kernel_size':(4,4)
+                        'kernel_size':(4 ,4)
                    }
 
             layers.append(nn.Conv2d(**args))
 
             #normalize flag
             if normalize:
-                layers.append(nn.BatchNorm2d(output_channels, .8))
+                layers.append(nn.BatchNorm2d(output_channels))
             
             #activation
             layers.append(nn.LeakyReLU(.2))
@@ -40,7 +40,7 @@ class generator(nn.Module):
             args = {
                         'in_channels':input_channels,
                         'out_channels': output_channels,
-                        'kernel_size':(4,4),
+                        'kernel_size':(4, 4),
                         'stride':2,
                         'padding':1
                    }
@@ -49,7 +49,7 @@ class generator(nn.Module):
 
             #normalize flag
             if normalize:
-                layers.append(nn.BatchNorm2d(output_channels, .8))
+                layers.append(nn.BatchNorm2d(output_channels))
             
             #activation
             layers.append(nn.ReLU())
@@ -68,7 +68,7 @@ class generator(nn.Module):
             return layers
         
 
-        def config_layer(input_channels=3,output_channels=3, normalize=True):
+        def config_layer(input_channels=3, output_channels=3, normalize=True):
             return locals()
 
 
@@ -104,12 +104,12 @@ class generator(nn.Module):
                                         *get_layers(self.encoder_layers, transpose=False),
                                         
                                         #bootleneck
-                                        nn.Conv2d(in_channels=512, out_channels=4000, kernel_size=(1,1)),
+                                        nn.Conv2d(in_channels=512, out_channels=4000, kernel_size=(1, 1)),
                                         
                                         #decode Layers
                                         *get_layers(self.decoder_layers, transpose=True),
 
-                                        nn.Conv2d(in_channels=64, out_channels=self.channels, kernel_size=(3,3), stride=1, padding=1),
+                                        nn.Conv2d(in_channels=64, out_channels=self.channels, kernel_size=(3, 3), stride=1, padding=1),
 
                                         nn.Tanh()
                                   )

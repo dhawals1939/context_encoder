@@ -38,7 +38,7 @@ class discriminator(nn.Module):
             
             return layers
 
-        def config_layer(input_channels=3, output_channels=3, stride=2, normalize=True, kernel_size=(3,3), activation=True):
+        def config_layer(input_channels=3, output_channels=3, stride=2, normalize=True, kernel_size=(4, 4), activation=True):
             return locals()
 
         self.discriminator_layers = list()
@@ -52,11 +52,12 @@ class discriminator(nn.Module):
 
         self.discriminator_layers.append(config_layer(256, 512, 2, True))               #layer-->4
 
-        self.discriminator_layers.append(config_layer(512, 1, 1, False))                #layer-->5
+        self.discriminator_layers.append(config_layer(512, 1, 1, True))                #layer-->5
 
         #model
         self.model = nn.Sequential(
-                                        *get_layers(self.discriminator_layers)[:-1]
+                                        *get_layers(self.discriminator_layers),
+                                        nn.Sigmoid()
                                   )
     def forward(self, x):
         return self.model(x)

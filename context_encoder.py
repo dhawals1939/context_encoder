@@ -32,10 +32,14 @@ test_path = sys.argv[6] + '/'
 
 test_output_path = sys.argv[7] +'/'
 
+
 img_x, img_y=128, 128
 channels=3
 mask_x, mask_y=64, 64
-epochs=3000
+batch_size = 256
+epochs=200
+
+prev_epoch = 1
 
 #required --> transforms  Resize, to-tensor-for-pytorch, normalize
 
@@ -52,21 +56,22 @@ pixelwise_loss = torch.nn.L1Loss()
 generator = Generator()
 discriminator = Discriminator()
 
-generator.cuda()
-discriminator.cuda()
-pixelwise_loss.cuda()
-adversarial_loss.cuda()
+if torch.cuda.is_available():
+    generator.cuda()
+    discriminator.cuda()
+    pixelwise_loss.cuda()
+    adversarial_loss.cuda()
 
 train_data_loader = DataLoader(
                                 image_loader(path= data_path + '*.JPG', transforms_=transforms_),
-                                batch_size=256,
+                                batch_size=batch_size,
                                 shuffle=True,
                                 num_workers=10
                               )
 
 val_data_loader = DataLoader(
                                 image_loader(path=data_path + '*.JPG', transforms_=transforms_, mode='val'),
-                                batch_size=256,
+                                batch_size=batch_size,
                                 shuffle=False,
                                 num_workers=10
                              )
@@ -74,7 +79,28 @@ val_data_loader = DataLoader(
 optimizer_g = torch.optim.Adam(generator.parameters(), lr=.0001, betas=(.5, .999))
 optimizer_d = torch.optim.Adam(discriminator.parameters(), lr=.0001, betas=(.5, .999))
 
-Tensor = torch.cuda.FloatTensor
+
+try:
+    check_point = torch.load(check_points_path + 'check_point.pt')
+
+    if check_point is not None:
+        prev_epoch = check_point['epoch']
+        epochs = prev_epoch + 1501
+        prev_epoch += 1
+
+        generator.load_state_dict(check_point['generator_state_dict'])
+        discriminator.load_state_dict(check_point['discriminator_state_dict'])
+
+        optimizer_g.load_state_dict(check_point['optimizer_g_state_dict'])
+        optimizer_d.load_state_dict(check_point['optimizer_d_state_dict'])
+
+        adversarial_loss.load_state_dict(check_point['adversarial_loss'])
+        pixelwise_loss.load_state_dict(check_point['pixelwise_loss'])
+
+except:
+    pass
+
+Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
 
 def save_sample(epoch):
     global val_data_loader
@@ -88,18 +114,24 @@ def save_sample(epoch):
     sample = torch.cat((masked_samples.data, filled_samples.data, samples.data), -2)
     save_image(sample, results_path + 'epoch-%d.jpg'%(epoch), nrow=6, normalize=True)
 
-log_loss_file = open(log_path + 'log_loss_file.csv', 'w')
-log_loss_file.write('Epoch,Batch,real_loss,fake_loss,d_loss,g_adv,g_pixel,g_loss\n')
+try:
+    if os.path.exists(log_path + 'log_loss_file.csv'):
+        log_loss_file = open(log_path + 'log_loss_file.csv','a')
+    else:
+        raise Exception
+except:
+    log_loss_file = open(log_path + 'log_loss_file.csv', 'w')
+    log_loss_file.write('Epoch,real_loss,fake_loss,d_loss,g_adv,g_pixel,g_loss\n')
 
 
 import time 
 
-for epoch in range(1, 1 + epochs):
+for epoch in range(prev_epoch, 1 + epochs):
     epcoch_start = time.time()
     for i , (imgs, masked_imgs, masked_parts) in enumerate(train_data_loader):
 
-        valid = Variable(Tensor(imgs.shape[0], *(1, 4, 4)).fill_(1.0), requires_grad=False)
-        fake = Variable(Tensor(imgs.shape[0], *(1, 4, 4)).fill_(.0), requires_grad=False)
+        valid = Variable(Tensor(imgs.shape[0], *(1, 3, 3)).fill_(1.0), requires_grad=False)
+        fake = Variable(Tensor(imgs.shape[0], *(1, 3, 3)).fill_(.0), requires_grad=False)
 
         imgs = Variable(imgs.type(Tensor))
         masked_imgs = Variable(masked_imgs.type(Tensor))
@@ -142,13 +174,13 @@ for epoch in range(1, 1 + epochs):
         
         if i%len(train_data_loader) == 0:
             metrics = (epoch, i+1, real_loss.item(), fake_loss.item(), d_loss.item(), g_adv.item(), g_pixel.item(), g_loss.item())
-            log_metrics = '%f,'*len(metrics)
+            log_metrics = '%d,' + '%f,'*(len(metrics)-1)
             log_loss_file.write(log_metrics[:-1]%metrics + '\n')
             log_loss_file.flush()
 
             batches_done = epoch * len(train_data_loader) + i
 
-    if epoch % 50 == 1:
+    if epoch % 19 == 1:
         save_sample(epoch)
         check_point = {
                         'epoch':                        epoch,
@@ -156,8 +188,8 @@ for epoch in range(1, 1 + epochs):
                         'discriminator_state_dict' :    discriminator.state_dict(),
                         'optimizer_g_state_dict' :      optimizer_g.state_dict(),
                         'optimizer_d_state_dict' :      optimizer_d.state_dict(),
-                        'g_adv':                        adversarial_loss.state_dict(),
-                        'g_pixel':                      pixelwise_loss.state_dict(),
+                        'adversarial_loss':             adversarial_loss.state_dict(),
+                        'pixelwise_loss':               pixelwise_loss.state_dict(),
                       }
         torch.save(check_point, check_points_path + 'check_point.pt')
     print('Epoch %d/%d -- time  %d'%(epoch, epochs, time.time()-epcoch_start))
