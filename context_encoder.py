@@ -82,11 +82,9 @@ optimizer_d = torch.optim.Adam(discriminator.parameters(), lr=.0001, betas=(.5, 
 
 try:
     check_point = torch.load(check_points_path + 'check_point.pt')
-
     if check_point is not None:
-        prev_epoch = check_point['epoch']
+        prev_epoch = check_point['epoch'] + 1
         epochs = prev_epoch + 1501
-        prev_epoch += 1
 
         generator.load_state_dict(check_point['generator_state_dict'])
         discriminator.load_state_dict(check_point['discriminator_state_dict'])
@@ -94,11 +92,15 @@ try:
         optimizer_g.load_state_dict(check_point['optimizer_g_state_dict'])
         optimizer_d.load_state_dict(check_point['optimizer_d_state_dict'])
 
-        adversarial_loss.load_state_dict(check_point['g_adv'])
-        pixelwise_loss.load_state_dict(check_point['g_pixel'])
+        adversarial_loss.load_state_dict(check_point['adversarial_loss_state_dict'])
+        pixelwise_loss.load_state_dict(check_point['pixelwise_loss_state_dict'])
 
 except:
     pass
+
+import numpy as np
+epoch_list = np.array(list(range(prev_epoch, epochs)))
+check_points = epoch_list[np.where(epoch_list%50 == 1)]
 
 Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
 
@@ -121,13 +123,14 @@ try:
         raise Exception
 except:
     log_loss_file = open(log_path + 'log_loss_file.csv', 'w')
-    log_loss_file.write('Epoch,real_loss,fake_loss,d_loss,g_adv,g_pixel,g_loss\n')
+    log_loss_file.write('Epoch, Generator Loss, Discriminator Loss\n')
 
 
 import time 
 
 for epoch in range(prev_epoch, 1 + epochs):
-    epcoch_start = time.time()
+    epoch_start = time.time()
+    epoch_generator_loss, epoch_discriminator_loss = .0, .0
     for i , (imgs, masked_imgs, masked_parts) in enumerate(train_data_loader):
 
         valid = Variable(Tensor(imgs.shape[0], *(1, 3, 3)).fill_(1.0), requires_grad=False)
@@ -155,6 +158,8 @@ for epoch in range(prev_epoch, 1 + epochs):
 
         optimizer_g.step()
 
+        epoch_generator_loss +=  g_loss.item() * generated_parts.shape[0] 
+
         #train discriminator
         optimizer_d.zero_grad()
 
@@ -167,20 +172,22 @@ for epoch in range(prev_epoch, 1 + epochs):
 
         optimizer_d.step()
 
+        epoch_discriminator_loss += d_loss * generated_parts.shape[0]
+
         print(
                 'Epoch %d/%d Batch %d/%d [D loss: %f] [G adv: %f, pixel: %f]'
                 %(epoch, epochs, i+1, len(train_data_loader), d_loss.item(), g_adv.item(), g_pixel.item())
              )
         
         if i%len(train_data_loader) == 0:
-            metrics = (epoch, i+1, real_loss.item(), fake_loss.item(), d_loss.item(), g_adv.item(), g_pixel.item(), g_loss.item())
+            metrics = (epoch, epoch_generator_loss/len(train_data_loader), epoch_generator_loss/len(train_data_loader))
             log_metrics = '%d,' + '%f,'*(len(metrics)-1)
             log_loss_file.write(log_metrics[:-1]%metrics + '\n')
             log_loss_file.flush()
 
             batches_done = epoch * len(train_data_loader) + i
 
-    if epoch % 19 == 1:
+    if epoch in check_points:
         save_sample(epoch)
         check_point = {
                         'epoch':                        epoch,
@@ -188,11 +195,11 @@ for epoch in range(prev_epoch, 1 + epochs):
                         'discriminator_state_dict' :    discriminator.state_dict(),
                         'optimizer_g_state_dict' :      optimizer_g.state_dict(),
                         'optimizer_d_state_dict' :      optimizer_d.state_dict(),
-                        'g_adv':             adversarial_loss.state_dict(),
-                        'g_pixel':               pixelwise_loss.state_dict(),
+                        'adversarial_loss_state_dict':  adversarial_loss.state_dict(),
+                        'pixelwise_loss_state_dict':    pixelwise_loss.state_dict(),
                       }
         torch.save(check_point, check_points_path + 'check_point.pt')
-    print('Epoch %d/%d -- time  %d'%(epoch, epochs, time.time()-epcoch_start))
+    print('Epoch %d/%d -- time  %d'%(epoch, epochs, time.time()-epoch_start))
 
 log_loss_file.close()
 
