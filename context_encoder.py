@@ -94,8 +94,8 @@ try:
         optimizer_g.load_state_dict(check_point['optimizer_g_state_dict'])
         optimizer_d.load_state_dict(check_point['optimizer_d_state_dict'])
 
-        adversarial_loss.load_state_dict(check_point['adversarial_loss'])
-        pixelwise_loss.load_state_dict(check_point['pixelwise_loss'])
+        adversarial_loss.load_state_dict(check_point['g_adv'])
+        pixelwise_loss.load_state_dict(check_point['g_pixel'])
 
 except:
     pass
@@ -188,8 +188,8 @@ for epoch in range(prev_epoch, 1 + epochs):
                         'discriminator_state_dict' :    discriminator.state_dict(),
                         'optimizer_g_state_dict' :      optimizer_g.state_dict(),
                         'optimizer_d_state_dict' :      optimizer_d.state_dict(),
-                        'adversarial_loss':             adversarial_loss.state_dict(),
-                        'pixelwise_loss':               pixelwise_loss.state_dict(),
+                        'g_adv':             adversarial_loss.state_dict(),
+                        'g_pixel':               pixelwise_loss.state_dict(),
                       }
         torch.save(check_point, check_points_path + 'check_point.pt')
     print('Epoch %d/%d -- time  %d'%(epoch, epochs, time.time()-epcoch_start))
