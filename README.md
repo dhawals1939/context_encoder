@@ -18,6 +18,7 @@ The folder structure for the code is :
     ├── discriminator.py                #model of dicriminator defined
     ├── generator.py                    #model for generator defined
     ├── test.py                         #code for testing the trained models.
+    ├── .pdf files                      #reports and ppts of the project
     └── README.md
 
 ## Results over the paris dataset
