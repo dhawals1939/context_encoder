@@ -23,7 +23,7 @@ The folder structure for the code is :
 
 ## Results over the paris dataset
 The sample results of the dataset along with the ground truth and the cropped out region. Top is the cropped image input to the generator and the middle is the output of the generator and last image shows the ground truth.
-Some of the best results are shown below
+Some of the best results are:<br/>
 ![](paris_eval_results/im-11.jpg)
 ![](paris_eval_results/im-17.jpg)
 ![](paris_eval_results/im-25.jpg)
