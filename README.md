@@ -12,6 +12,7 @@ The folder structure for the code is :
     ├── misc                 
     │   ├── Screenshots                 #includes the screenshots of the model while running
     │   └──bash scripts                 #used for running the code
+    ├── CAT_Smaller_Set                 #results on cat dataset
     ├── Context_encoder.ipynb           #code for running in google colab
     ├── context_encoder.py              #code for training and validating in gpu
     ├── data_loader.py                  #code for loading data into the model
@@ -32,7 +33,14 @@ Some of the best results are:<br/>
 ![](misc/output.PNG)
 
 ## Results over cat dataset
+The best results with cat dataset are shown below
 
+![](CAT_Smaller_Set/49350.jpg)
+![](CAT_Smaller_Set/49300.jpg)
+![](CAT_Smaller_Set/46000.jpg)
+![](CAT_Smaller_Set/49950.jpg)
+![](CAT_Smaller_Set/49850.jpg)
+![](CAT_Smaller_Set/49650.jpg)
 
 ## Links
 [Paris_dataset](https://drive.google.com/open?id=0ByeCo8E6DMZ4QUJEWGRWMm96RE0)<br/>
