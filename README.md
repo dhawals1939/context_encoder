@@ -43,6 +43,7 @@ The best results with cat dataset are shown below
 ![](CAT_Smaller_Set/49650.jpg)
 
 ## Links
-[Paris_dataset](https://drive.google.com/open?id=0ByeCo8E6DMZ4QUJEWGRWMm96RE0)<br/>
+[Paris_dataset]
+# Note: The Paris Building Dataset cannot be publicly available .Access to dataset can be obtained via mailing the original paper authors: Deepak Pathak, Philipp Krahenbuhl, Jeff Donahue, Trevor Darrell & Alexei A. Efros.
 [Code for plots](https://colab.research.google.com/drive/1qHWsU9b6sVo0FfPebkF1GWZlLIpI-Cs0)<br/>
 [Presentation](https://docs.google.com/presentation/d/1QF8oylaEKNHnNxCboERB1qOtrI7GsiZj1sY1es17YgM/edit?usp=sharing)<br/>
