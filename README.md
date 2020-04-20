@@ -1,4 +1,4 @@
-# Project Context-encoder
+# Project : Context Encoders: Feature Learning by Inpainting
 ---
 ## Folder structure and instructions
 The folder structure for the code is :
