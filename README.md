@@ -28,6 +28,11 @@ Some of the best results are:<br/>
 ![](paris_eval_results/im-11.jpg)
 ![](paris_eval_results/im-17.jpg)
 ![](paris_eval_results/im-25.jpg)
+<br/>
+![](GIF_Result_Across_Epochs/vid4.gif)
+![](GIF_Result_Across_Epochs/vid5.gif)
+![](GIF_Result_Across_Epochs/vid19.gif)
+![](GIF_Result_Across_Epochs/vid25.gif)
 
 ## Graphs of the train and validation losses across the epochs
 ![](misc/output.PNG)
