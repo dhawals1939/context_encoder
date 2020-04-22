@@ -21,12 +21,12 @@ The folder structure for the code is :
 │   └── split_images					# split-images obtained from image_spliter.py
 ├── paris_eval_results					# Obained results on eval data
 ├── paris_eval						# paris data eval set (get data from Pathak)
-├── mid_eval_submissions				# Mid Eval submission 
+├── mid_eval_submissions				# submission folder for mid eval (project) 
 │   └── images						# Random crop on CIFAR10
 ├── paris_train						# train images needs to be here (get data from Pathak)
 ├── log							# Logs
 ├── cat_dataset_results					# Results on Cat Dataset
-├── final_eval_submission				# submission folder for project eval
+├── final_eval_submission				# submission folder for final eval (project)
 ├── misc
 │   ├── image_splitter.py				# batch image spliter
 │   ├── gifmaker.py					# gif maker
