@@ -25,11 +25,13 @@ The folder structure for the code is :
 
 ## Results over the paris dataset
 The sample results of the dataset along with the ground truth and the cropped out region. Top is the cropped image input to the generator and the middle is the output of the generator and last image shows the ground truth.
-Some of the best results are:<br/>
+Some of the results are:<br/>
 ![](paris_eval_results/generated_imgs-1.jpg)
 ![](paris_eval_results/generated_imgs-17.jpg)
 ![](paris_eval_results/generated_imgs-70.jpg)
+![](paris_eval_results/generated_imgs-88.jpg)
 <br/>
+Gifs illustrating Epoch-wise improvements<br/>
 ![](paris_epoch_results_gifs/147.gif)
 ![](paris_epoch_results_gifs/174.gif)
 ![](paris_epoch_results_gifs/1.gif)

@@ -11,7 +11,7 @@ class discriminator(nn.Module):
         def down_sampling(input_channels=None, output_channels=None, stride=None, kernel_size=None, normalize=None, activation=True):
             layers = list()
 
-            #Conv2d inputs
+            #Conv2d Inputs
             args = {
                         'in_channels':input_channels,
                         'out_channels':output_channels,
@@ -20,11 +20,11 @@ class discriminator(nn.Module):
                         'padding':1
                    }
 
-            layers.append(nn.Conv2d(**args))
+            layers.append(nn.Conv2d(**args, bias=False))
 
             #normalize flag
             if normalize:
-                layers.append(nn.InstanceNorm2d(output_channels))
+                layers.append(nn.BatchNorm2d(output_channels))
             if activation:
                 layers.append(nn.LeakyReLU(.2, inplace=True))
 
@@ -43,21 +43,27 @@ class discriminator(nn.Module):
 
         self.discriminator_layers = list()
 
-        #discriminator layers
-        self.discriminator_layers.append(config_layer(self.channels, 64, 2, False))     #layer-->1
+        # Discriminator layers
+        self.discriminator_layers.append(config_layer(self.channels, 64, 2, normalize=False))                                    #layer-->1  input --> 3 x 64 x 64
 
-        self.discriminator_layers.append(config_layer(64, 128, 2, True))                #layer-->2
+        self.discriminator_layers.append(config_layer(64, 128, 2, True))                                                         #layer-->2  input --> 64 x 32 x 32
 
-        self.discriminator_layers.append(config_layer(128, 256, 2, True))               #layer-->3
+        self.discriminator_layers.append(config_layer(128, 256, 2, True))                                                        #layer-->3  input --> 128 x 16 x 16
 
-        self.discriminator_layers.append(config_layer(256, 512, 2, True))               #layer-->4
+        self.discriminator_layers.append(config_layer(256, 512, 2, True))                                                        #layer-->4  input --> 256 x 8 x 8
 
-        self.discriminator_layers.append(config_layer(512, 1, 1, True))                #layer-->5
+        # self.discriminator_layers.append(config_layer(512, 1, 2, False, activation=False))
 
-        #model
+        # Model
         self.model = nn.Sequential(
                                         *get_layers(self.discriminator_layers),
-                                        nn.Sigmoid()
+
+                                        nn.Conv2d(512, 1, kernel_size=(4, 4), bias=False),                                       #layer-->5  input --> 512 x 4 x 4
+                                        
+                                        nn.Sigmoid(),
+                                        # output --> 1 x 1 x 1
                                   )
     def forward(self, x):
-        return self.model(x)
+        output = self.model(x)
+        # print(output.shape)
+        return output.view(-1)
