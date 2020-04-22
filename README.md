@@ -36,6 +36,7 @@ The folder structure for the code is :
 ├── README.md						# Readme
 └── paris_epoch_results					# Epcoh wise one batch results
 ```
+before cloning repo install `git lfs` as the repo includes `check_point.pt` which is over `800MB`
 
 ## Results over the paris dataset
 The sample results of the dataset along with the ground truth and the cropped-out region. Top is the cropped image input to the generator and the middle is the output of the generator and last image shows the ground truth.
