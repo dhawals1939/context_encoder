@@ -13,6 +13,7 @@ The folder structure for the code is :
     │   ├── Screenshots                 #includes the screenshots of the model while running
     │   └──bash scripts                 #used for running the code
     ├── CAT_Smaller_Set                 #results on cat dataset
+    ├── GIF_Result_Across_Epochs        #results shown at every few epochs and made into a gif
     ├── Context_encoder.ipynb           #code for running in google colab
     ├── context_encoder.py              #code for training and validating in gpu
     ├── data_loader.py                  #code for loading data into the model
