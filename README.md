@@ -44,6 +44,7 @@ Some of the results obtained on Paris Dataset<br/>
 ![epoch results](paris_eval_results/generated_imgs-1.jpg)
 ![epoch results](paris_eval_results/generated_imgs-17.jpg)
 ![epoch results](paris_eval_results/generated_imgs-70.jpg)
+![epoch results](paris_eval_results/generated_imgs-28.jpg)
 <br/>
 Gifs illustrating Epoch-wise improvements<br/>
 ![Epoch Gif](paris_epoch_results_gifs/147.gif)
