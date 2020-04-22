@@ -26,32 +26,32 @@ The folder structure for the code is :
 ## Results over the paris dataset
 The sample results of the dataset along with the ground truth and the cropped out region. Top is the cropped image input to the generator and the middle is the output of the generator and last image shows the ground truth.
 Some of the best results are:<br/>
-![](paris_eval_results/im-11.jpg)
-![](paris_eval_results/im-17.jpg)
-![](paris_eval_results/im-25.jpg)
+![](paris_eval_results/generated_imgs-1.jpg)
+![](paris_eval_results/generated_imgs-17.jpg)
+![](paris_eval_results/generated_imgs-70.jpg)
 <br/>
-![](GIF_Result_Across_Epochs/vid4.gif)
-![](GIF_Result_Across_Epochs/vid5.gif)
-![](GIF_Result_Across_Epochs/vid19.gif)
-![](GIF_Result_Across_Epochs/vid25.gif)
+![](paris_epoch_results_gifs/147.gif)
+![](paris_epoch_results_gifs/174.gif)
+![](paris_epoch_results_gifs/1.gif)
+![](paris_epoch_results_gifs/4.gif)
 
 ## Graphs of the train and validation losses across the epochs
-![](misc/output.PNG)
+![](misc/graph.PNG)
 
 ## Results over cat dataset
 The best results with cat dataset are shown below
 
-![](CAT_Smaller_Set/49350.jpg)
-![](CAT_Smaller_Set/49300.jpg)
-![](CAT_Smaller_Set/46000.jpg)
-![](CAT_Smaller_Set/49950.jpg)
-![](CAT_Smaller_Set/49850.jpg)
-![](CAT_Smaller_Set/49650.jpg)
+![](cat_dataset_results/49350.jpg)
+![](cat_dataset_results/49300.jpg)
+![](cat_dataset_results/46000.jpg)
+![](cat_dataset_results/49950.jpg)
+![](cat_dataset_results/49850.jpg)
+![](cat_dataset_results/49650.jpg)
 
 ## Links
 ## Paris_dataset
 #Note:
-The Paris Building Dataset cannot be publicly available .Access to dataset can be obtained via mailing the original paper authors: Deepak Pathak, Philipp Krahenbuhl, Jeff Donahue, Trevor Darrell & Alexei A. Efros.
+The Paris Building Dataset cannot be made publicly available. Access to dataset can be obtained via mailing the original paper authors: Deepak Pathak, Philipp Krahenbuhl, Jeff Donahue, Trevor Darrell & Alexei A. Efros.
 ## [Code for plots]
 (https://colab.research.google.com/drive/1qHWsU9b6sVo0FfPebkF1GWZlLIpI-Cs0)<br/>
 ## [Presentation]
