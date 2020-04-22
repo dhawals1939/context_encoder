@@ -47,10 +47,10 @@ Some of the results obtained on Paris Dataset<br/>
 ![epoch results](paris_eval_results/generated_imgs-28.jpg)
 <br/>
 Gifs illustrating Epoch-wise improvements<br/>
-![Epoch Gif](paris_epoch_results_gifs/147.gif)
-![Epoch Gif](paris_epoch_results_gifs/174.gif)
-![Epoch Gif](paris_epoch_results_gifs/1.gif)
-![Epoch Gif](paris_epoch_results_gifs/58.gif)
+![Epoch Gif](misc/vid4.gif)
+![Epoch Gif](misc/vid5.gif)
+![Epoch Gif](misc/vid19.gif)
+![Epoch Gif](misc/vid25.gif)
 
 ## Graphs of the train and validation losses across the epochs
 ![Loss Graph](misc/graph.PNG)
