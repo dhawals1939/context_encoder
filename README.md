@@ -2,6 +2,7 @@
 ---
 ## Folder structure and instructions
 The folder structure for the code is :
+```
 .
 ├── generator.py					# Generator Network
 ├── discriminator.py					# Discriminator network
@@ -34,7 +35,7 @@ The folder structure for the code is :
 ├── check_points					# checkpoint saved
 ├── README.md						# Readme
 └── paris_epoch_results					# Epcoh wise one batch results
-
+```
 
 ## Results over the paris dataset
 The sample results of the dataset along with the ground truth and the cropped-out region. Top is the cropped image input to the generator and the middle is the output of the generator and last image shows the ground truth.
